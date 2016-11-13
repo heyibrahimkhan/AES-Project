@@ -1,8 +1,9 @@
 /*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
+ * Mansoor Farooq
+ * COSC 620 - Assignment GF1
+ * Nov 10th 2016
  */
+
 package aesimplementation;
 
 import java.io.BufferedReader;
@@ -16,19 +17,19 @@ import java.util.StringTokenizer;
 
 /**
  *
- * @author Ibrahim Ali Khan
+ * @author Mansoor Farooq
  */
 class AES {
-    public static int polynomial;
-    public static final String s_box="637c777bf26b6fc53001672bfed7ab76ca82c97dfa5947f0add4a2af9ca472c0b7fd9326363ff7cc34a5e5f171d8311504c723c31896059a071280e2eb27b27509832c1a1b6e5aa0523bd6b329e32f8453d100ed20fcb15b6acbbe394a4c58cfd0efaafb434d338545f9027f503c9fa851a3408f929d38f5bcb6da2110fff3d2cd0c13ec5f974417c4a77e3d645d197360814fdc222a908846eeb814de5e0bdbe0323a0a4906245cc2d3ac629195e479e7c8376d8dd54ea96c56f4ea657aae08ba78252e1ca6b4c6e8dd741f4bbd8b8a703eb5664803f60e613557b986c11d9ee1f8981169d98e949b1e87e9ce5528df8ca1890dbfe6426841992d0fb054bb16";
-    public static final String s_box_inverse="52096ad53036a538bf40a39f81f3d7fb7ce339829b2fff87348e4344c4dee9cb547b9432a6c2233dee4c950b42fac34e082ea16628d924b2765ba2496d8bd12572f8f664b6689816d4a45ccc5d65b6926c704850fdedb9da5e154657a78d9d8490d8ab008cbcd30af7e45805b8b34506d02c1e8fca3f0f02c1afbd0301138a6b3a9111414f67dcea97f2cfcef0b4e67396ac7422e7ad3585e2f937e81c75df6e47f11a711d29c5896fb7620eaa18be1bfc563e4bc6d279209adbc0fe78cd5af41fdda8338807c731b11210592780ec5f60517fa919b54a0d2de57a9f93c99cefa0e03b4dae2af5b0c8ebbb3c83539961172b047eba77d626e169146355210c7d";
-    public static final String mat_mixCol="02030101010203010101020303010102";
-    public static final String mat_mixCol_inverse="0e0b0d09090e0b0d0d090e0b0b0d090e";
-    public int block_size, total_rounds, total_aess=0;
-    public String text_plain, text_plainn="19a09ae93df4c6f8e3e28d48be2b2a08", text_cipher="";
-    public static List S_Box, Rcon, RoundKeys;
-    char mode;
-    public static AESSubBytesTables helper;
+    
+    private static int polynomial;
+//    private static final String s_box="637c777bf26b6fc53001672bfed7ab76ca82c97dfa5947f0add4a2af9ca472c0b7fd9326363ff7cc34a5e5f171d8311504c723c31896059a071280e2eb27b27509832c1a1b6e5aa0523bd6b329e32f8453d100ed20fcb15b6acbbe394a4c58cfd0efaafb434d338545f9027f503c9fa851a3408f929d38f5bcb6da2110fff3d2cd0c13ec5f974417c4a77e3d645d197360814fdc222a908846eeb814de5e0bdbe0323a0a4906245cc2d3ac629195e479e7c8376d8dd54ea96c56f4ea657aae08ba78252e1ca6b4c6e8dd741f4bbd8b8a703eb5664803f60e613557b986c11d9ee1f8981169d98e949b1e87e9ce5528df8ca1890dbfe6426841992d0fb054bb16";
+//    private static final String s_box_inverse="52096ad53036a538bf40a39f81f3d7fb7ce339829b2fff87348e4344c4dee9cb547b9432a6c2233dee4c950b42fac34e082ea16628d924b2765ba2496d8bd12572f8f664b6689816d4a45ccc5d65b6926c704850fdedb9da5e154657a78d9d8490d8ab008cbcd30af7e45805b8b34506d02c1e8fca3f0f02c1afbd0301138a6b3a9111414f67dcea97f2cfcef0b4e67396ac7422e7ad3585e2f937e81c75df6e47f11a711d29c5896fb7620eaa18be1bfc563e4bc6d279209adbc0fe78cd5af41fdda8338807c731b11210592780ec5f60517fa919b54a0d2de57a9f93c99cefa0e03b4dae2af5b0c8ebbb3c83539961172b047eba77d626e169146355210c7d";
+    private static final String mat_mixCol="02030101010203010101020303010102";
+    private static final String mat_mixCol_inverse="0e0b0d09090e0b0d0d090e0b0b0d090e";
+    private int block_size, total_rounds, total_aess=0;
+    private String text_plain, text_plainn="19a09ae93df4c6f8e3e28d48be2b2a08", text_cipher="";
+    private static List S_Box, Rcon, RoundKeys;
+    private char mode;
     
     public static void main(String[] args) {
 //        Object[] obj;
@@ -38,16 +39,19 @@ class AES {
         String key = (String) obj[1];
         String pt = (String) obj[2];
         String ct = (String) obj[3];
-//        System.out.println("Read from Input.txt");
-//        System.out.println("poly = "+poly);
-//        System.out.println("key = "+key);
-//        System.out.println("pt = "+pt);
-//        System.out.println("ct = "+ct+"\n\n");
         
         AES aes = new AES(128, poly, key);
-        String result = aes.Encryption(pt)+"\n";
+        String result = "";
+        result = aes.Encryption(pt)+"\n";
         result = result.concat(aes.Decryption(ct)+"\n");
         AES.writeToFile(result);
+        
+//        System.out.println("Table = "+aes.GetFromTable("d4", "02"));
+//        System.out.println("Multiply = "+aes.Multiply("02030101", "d4bf5d30"));
+//        System.out.println("Multiply Decryption = "+aes.MultiplyDecryption("0e0b0d09", "112233fb"));
+//        System.out.println("Multiply Decryption = "+aes.MultiplyDecryption("090e0b0d", "112233fb"));
+//        System.out.println("Multiply Decryption = "+aes.MultiplyDecryption("0d090e0b", "112233fb"));
+//        System.out.println("Multiply Decryption = "+aes.MultiplyDecryption("0b0d090e", "112233fb"));
         
 //        AES aes = new AES(128, 283, "2b28ab097eaef7cf15d2154f16a6883c");
 //        String s = aes.Encryption("3243f6a8885a308d313198a2e0370734");
@@ -65,86 +69,177 @@ class AES {
 //        s = aes.Decryption(s);
 //        System.out.println(s);
         
-        
-        
+//        for (int i = 0; i < helper.table_14.length; i++) {
+//            String hex = Integer.toHexString(i);
+//            if(hex.length() < 2) hex = "0" + hex;
+//            int res1 = Integer.parseInt(aes.GetFromTable("0e", hex), 16);
+//            int res2 = helper.table_14[i];
+//            if(res1 != res2){
+//                System.out.println(res1+" "+res2);
+////                while(true){
+////                    System.out.println("res1 = "+res1+" res2 = "+res2);
+////                }
+//            }
+//            System.out.println(helper.table_3[128]);
+//            
+//        }
     }
     
-    public AES(int b_sizes, int poly, String key){
-        initVars(b_sizes, poly, key);
+    /*
+    ** Default Constructor
+    ** Calls the first method to properly setup initialization for AES with 
+    ** dynamic polynomial for Substitution Bytes
+    **
+    ** @param Block_sizes
+    ** size of a block
+    **
+    ** @param poly
+    ** given polynomial
+    **
+    ** @param key
+    ** given key
+    **
+    */
+    public AES(int Block_sizes, int poly, String key){
+        initVars(Block_sizes, poly, key);
     }
     
-    public AES(int b_size){
+    /*
+    ** Default Constructor 2
+    ** Calls the first method to properly setup initialization for AES
+    **
+    ** @param Block_size
+    ** size of block
+    */
+    public AES(int Block_size){
         if(total_aess++<=0){
-            InitVars(b_size);
+            InitVars(Block_size);
         }
     }
     
-    public void SetMode(char m){
-        mode=m;
+    /*
+    ** Sets Mode either to Encryption or Decryption
+    **
+    ** @param Mode
+    ** mode rither encryption or decryption
+    */
+    private void setMode(char Mode){
+        mode=Mode;
     }
 
-    private void SetTotalNumOfRounds() {
+    /*
+    ** Sets Total Number of rounds according to the number of block size given
+    */
+    private void setTotalNumOfRounds() {
         if(block_size==128)total_rounds=11;
         else if(block_size==192)total_rounds=13;
         else if(block_size==256)total_rounds=15;
         else System.out.println("Block Size is infeasible\nNumber of Rounds unidentified");
     }
 
-    private void initVars(int b_sizes, int poly, String key){
+    /*
+    ** Properly helps setup AES algorithm
+    ** Declares Rcon array
+    ** Generates Round Keys
+    **
+    ** @param Block_sizes
+    ** block size
+    **
+    ** @param poly
+    ** given polynomial
+    **
+    ** @param key
+    ** given key
+    */
+    private void initVars(int Block_sizes, int poly, String key){
         mode='e';
-        block_size=b_sizes;
+        block_size=Block_sizes;
         polynomial = poly;
-        SetTotalNumOfRounds();
+        setTotalNumOfRounds();
         FillRcon();
         setFirstRoundKey(key);
         ComputeNextRoundKeys();
-        helper=new AESSubBytesTables();
+//        helper=new AESSubBytesTables();
     }
     
-    private void InitVars(int b_size) {
+    /*
+    ** Properly helps setup AES algorithm
+    ** Declares Rcon array
+    ** Generates Round Keys
+    **
+    ** @param Block_size
+    ** size of block
+    */
+    private void InitVars(int Block_size) {
         mode='e';
-        block_size=b_size;
-        SetTotalNumOfRounds();
+        block_size=Block_size;
+        setTotalNumOfRounds();
         FillRcon();
         SetFirstRoundKey();
         ComputeNextRoundKeys();
-        helper=new AESSubBytesTables();
+//        helper=new AESSubBytesTables();
     }
     
-    public String Encryption(String p_text){
+    /*
+    ** The main method for encryption
+    ** Takes plain text as input
+    ** Outputs cipher text
+    **
+    ** @param pt
+    ** plaintext
+    **
+    ** @return cipher text
+    */
+    private String Encryption(String pt){
         mode='e';
 //        int minmax_size=block_size/4;
 //        p_text = TransposeKey(p_text);
-        int len=p_text.length();
+        int len=pt.length();
         if(len<=0)return "Empty Input. Input Size is 0";
         if(len>32)return "Out of Bounds Input. Greater than 32";
-        if(len<32)p_text+=AddPadding(len%32); //Add Padding if necessary
-        p_text = (AddRoundKey(p_text, 0)); //First Round uses Main Key
+        if(len<32)pt+=AddPadding(len%32); //Add Padding if necessary
+        pt = (AddRoundKey(pt, 0)); //First Round uses Main Key
 //        System.out.println(p_text);
         for(int i=1;i<total_rounds-1;i++){ //Round is not the last one
 //            p_text=(AddRoundKey(MixColumns(ShiftRows(SubBytes(p_text))), i));// Intermediate Roundss not the last one
-            p_text = (AddRoundKey(MixColumns(ShiftRows(subBytes(p_text))), i));// Intermediate Rounds
+            pt = (AddRoundKey(MixColumns(ShiftRows(subBytes(pt))), i));// Intermediate Rounds
 //            System.out.println(p_text);
         }
 //        return AddRoundKey((ShiftRows(SubBytes(p_text))), total_rounds-1);// Last Round
-        return (AddRoundKey((ShiftRows(subBytes(p_text))), total_rounds-1));// Last Round
+        return (AddRoundKey((ShiftRows(subBytes(pt))), total_rounds-1));// Last Round
 //        return text_cipher;
     }
     
-    public String Decryption(String p_text){
+    /*
+    ** The main function for Decryption
+    ** Takes cipher text as input
+    ** Outputs plain text
+    **
+    ** @param ct
+    ** cipher text
+    **
+    ** @return palin text
+    */
+    private String Decryption(String ct){
         mode='d';
 //        p_text=(SubBytes(ShiftRows(AddRoundKey(p_text, total_rounds-1))));// Decrypt Last Round
-        p_text=(subBytes(ShiftRows(AddRoundKey(p_text, total_rounds-1))));// Decrypt Last Round
+        ct=(subBytes(ShiftRows(AddRoundKey(ct, total_rounds-1))));// Decrypt Last Round
 //        System.out.println("Decrypion = "+p_text);
         for (int i = total_rounds-2; i > 0; i--) {
 //            p_text=(SubBytes(ShiftRows(MixColumns(AddRoundKey(p_text, i)))));//Decrypt Intermediate > 0; i--) {
-            p_text=(subBytes(ShiftRows(MixColumns(AddRoundKey(p_text, i)))));//Decrypt Intermediate 
+            ct=(subBytes(ShiftRows(MixColumns(AddRoundKey(ct, i)))));//Decrypt Intermediate 
 //            System.out.println("Decryption = "+p_text);
         }
-        text_plain=AddRoundKey(p_text, 0);// Decrypt First Round
+        text_plain=AddRoundKey(ct, 0);// Decrypt First Round
         return text_plain;
     }
     
+    /*
+    ** @param temp_len
+    ** takes length of a strign as input
+    **
+    ** @return string of 0s of sizes 32-temp_len 
+    */
     private String AddPadding(int temp_len) {
         String temp="";
         int increase=32-temp_len;
@@ -154,6 +249,9 @@ class AES {
         return temp;
     }
 
+    /*
+    ** Fills Rcon array with appropriate values
+    */
     private void FillRcon() {
         Rcon=new ArrayList<String>();
         if(block_size==128){
@@ -171,12 +269,22 @@ class AES {
         }
     }
     
+    /*
+    **
+    ** sets first round key equal to given key
+    **
+    ** @param key
+    ** given key
+    */
     private void setFirstRoundKey(String key){
         RoundKeys = new ArrayList<String>();
 //        RoundKeys.add(TransposeKey(key));
         RoundKeys.add(key);
     }
 
+    /*
+    ** sets first round key equal to hardcoded key
+    */
     private void SetFirstRoundKey() {
         RoundKeys=new ArrayList<String>();
 //        String k="";
@@ -191,24 +299,27 @@ class AES {
 //        }
         
         String k="2b28ab097eaef7cf15d2154f16a6883c";
-        k=TransposeKey(k);
+        k=transpose(k);
         RoundKeys.add(k);
     }
-
+    
+    /*
+    ** Computes next round keys
+    */
     private void ComputeNextRoundKeys() {
         for (int rk_num = 1; rk_num <= total_rounds; rk_num++) {
             String rk_cur="";
             String s = "";
-            s = GetKey(rk_num, 1, rk_cur);
+            s = getKeyPart(rk_num, 1, rk_cur);
             rk_cur = rk_cur.concat(s);
 //            System.out.println(rk_num+" = "+s);
-            s = GetKey(rk_num, 2, rk_cur);
+            s = getKeyPart(rk_num, 2, rk_cur);
             rk_cur = rk_cur.concat(s);
 //            System.out.println(rk_num+" = "+s);
-            s = GetKey(rk_num, 3, rk_cur);
+            s = getKeyPart(rk_num, 3, rk_cur);
             rk_cur = rk_cur.concat(s);
 //            System.out.println(rk_num+" = "+s);
-            s = GetKey(rk_num, 4, rk_cur);
+            s = getKeyPart(rk_num, 4, rk_cur);
             rk_cur = rk_cur.concat(s);
 //            System.out.println(rk_num+" = "+s);
 //            rk_cur+=GetKey(rk_num,1,rk_cur);
@@ -220,9 +331,23 @@ class AES {
         }
     }
     
-    private String GetKey(int rk_num, int word, String cur){
+    /*
+    ** computes part of the round key
+    **
+    ** @param rk_num
+    ** round key number
+    ** 
+    ** @param column_num
+    ** column number
+    ** 
+    ** @param cur_key
+    ** partially completed round key column
+    **
+    ** @return a column of round key
+    */
+    private String getKeyPart(int rk_num, int column_num, String cur_key){
         String s="";
-        if(word-1==0){
+        if(column_num-1==0){
 //            return MyXOR(MyXOR(GetWord(rk_num-1,1), SubBytes(Shift(rk_num-1,1,4))),(String)Rcon.get(rk_num-1));
 //            return MyXOR(MyXOR(GetWord(rk_num-1,1), subBytes(Shift(rk_num-1,1,4))),(String)Rcon.get(rk_num-1));
 //            String r = (String)Rcon.get(rk_num-1);
@@ -232,11 +357,22 @@ class AES {
             return MyXOR(MyXOR(GetWord(rk_num-1,1), subBytes(Shift(rk_num-1,1,4))),(String)Rcon.get(rk_num-1));
         }
         else{
-            return MyXOR(GetWord(rk_num-1, word), GetWord(cur, word-1));
+            return MyXOR(GetWord(rk_num-1, column_num), getWord(cur_key, column_num-1));
         }
 //        return s;
     }
     
+    /*
+    ** gets a part of previously generated round keys
+    **
+    ** @param rk_num
+    ** round key number
+    **
+    ** @param word
+    ** column number from previous round key
+    **
+    ** @return column word from round key number rk_num
+    */
     private String GetWord(int rk_num, int word){
         String s="";
         int end=word*8;
@@ -247,15 +383,42 @@ class AES {
         return s;
     }
     
-    private String GetWord(String temp, int word){
-        String s="";
-        int end=word*8;
-        for (int j = 8*(word-1); j < end; j++) {
-            s+=temp.charAt(j);
-        }
-        return s;
+    /*
+    ** gets a substring
+    **
+    ** @param temp
+    ** a string
+    **
+    ** @param word
+    ** start position
+    **
+    ** @return substring temp(8*(word-1), word*8)
+    */
+    private String getWord(String temp, int word){
+//        String s="";
+//        int end=word*8;
+        return temp.substring(8*(word-1), word*8);
+//        for (int j = 8*(word-1); j < end; j++) {
+//            s+=temp.charAt(j);
+//        }
+//        return temp;
     }
     
+    /*
+    ** Shifts a roundkey word by some rotations
+    **
+    ** @param rk_num
+    ** round key number
+    **
+    ** @param rot
+    ** number of times to be rotated
+    **
+    ** @param word
+    ** part of the roundkey
+    **
+    ** @return
+    ** rotated part of roundkey[rk_num]
+    */
     private String Shift(int rk_num, int rot, int word){
         String s="";
         String temp=GetWord(rk_num, word);
@@ -267,6 +430,20 @@ class AES {
         return s;
     }
     
+    /*
+    ** Rotates strings eitehr left or right
+    **
+    ** @param temp
+    ** String to be rotated
+    **
+    ** @param shift
+    ** amount of rotations
+    **
+    ** @param LorR
+    ** Direction of shifts
+    **
+    **  @return rotated string
+    */
     private String RotateWords(String temp, int shift, char LorR){
         String s="";
         int len=temp.length();
@@ -279,6 +456,17 @@ class AES {
         return s;
     }
     
+    /*
+    ** XORs given strings
+    **
+    ** @param s1
+    ** string number 1
+    **
+    ** @param s2
+    ** string number 2
+    **
+    ** @return XORed string
+    */
     private String MyXOR(String s1, String s2){
         String s="";
         int len1=s1.length();
@@ -297,16 +485,24 @@ class AES {
         return s;
     }
 
-    private int HexToDec(char charAt) {
+    /*
+    ** converts character from decimal to hex
+    **
+    ** @param gchar
+    ** given character
+    **
+    ** @return hex value of gchar
+    */
+    private int HexToDec(char gchar) {
 //        int ret=0;
-        if(charAt>=97 && charAt<=122){
-            return charAt-97+10;
+        if(gchar>=97 && gchar<=122){
+            return gchar-97+10;
         }
-        else if(charAt>=65 && charAt<=90){
-            return charAt-65+10;
+        else if(gchar>=65 && gchar<=90){
+            return gchar-65+10;
         }
         else{
-            return Integer.parseInt(Character.toString(charAt));
+            return Integer.parseInt(Character.toString(gchar));
         }
 //        return ret;
     }
@@ -333,6 +529,14 @@ class AES {
 //        return temp;
 //    }
     
+    /*
+    ** Performs subBytes operation on the state
+    **
+    ** @param text
+    ** given text
+    **
+    ** @return text on which subBytes has been performed
+    */
     private String subBytes(String text){
         String result = "";
         int len = text.length();
@@ -341,19 +545,28 @@ class AES {
 //            System.out.println("temp = "+temp);
             int num = Integer.parseInt(text.substring(i, i+2), 16);
             if(mode == 'e' || mode == 'E'){
-                for (int j = 0; j < 65536; j++) {
+                for (int j = 1; j < 65536; j++) {
                     int inverse = modMultiply(num, j, polynomial);
 //                    System.out.println("j = "+j);
-                    if(num == 0){
-                        result = result.concat("63");
-//                        System.out.println("Here");
-                        break;
-                    }
-                    if(inverse == 1){
-                        int k;
-                        k = Integer.parseInt(reverse(rightXOR(mulMat(Integer.toBinaryString(j)))), 2);
-                        String temp2 = Integer.toHexString(k);
+//                    if(num == 0){
+//                        result = result.concat("63");
+//                        System.out.println("temp = "+temp);
+//                        break;
+//                    }
+                    if(inverse == 1 || num == 0){
+                        int k = 0;
+                        String temp2 = "";
+                        if(num != 0){
+                            k = Integer.parseInt(reverse(rightXOR(mulMat(Integer.toBinaryString(j)))), 2);
+                        }
+                        else if (num == 0){
+                            k = Integer.parseInt(reverse(rightXOR("0")), 2);
+                        }
+                        temp2 = Integer.toHexString(k);
 //                        result = result.concat(Integer.toHexString(k));
+//                        if(num == 0){
+//                            System.out.println("temp 2 = "+temp2);
+//                        }
                         if(temp2.length()%2 == 1){
                             result = result.concat("0"+temp2);
                         }
@@ -368,12 +581,17 @@ class AES {
             else{
                 String mulMat = mulMat(Integer.toBinaryString(num));
                 String rightXOR = reverse(rightXOR(mulMat));
+                if(num == 0){
+//                    System.out.println("rightXor = "+rightXOR);
+                    rightXOR = reverse(rightXOR("0"));
+                }
                 int number = Integer.parseInt(rightXOR, 2);
-                for (int j = 0; j < 65536; j++) {
+                for (int j = 1; j < 65536; j++) {
                     int inverse = modMultiply(j, number, polynomial);
                     if(number == 0){
                         result = result.concat("00");
-//                        System.out.println("Here");
+//                        System.out.println("mulMat = "+mulMat);
+//                        System.out.println("rightXOR = "+rightXOR);
                         break;
                     }
                     if(inverse == 1){
@@ -395,50 +613,60 @@ class AES {
         return result;
     }
 
-    private String SubBytes(String text) {
-        String temp="";
-        int mul=32;
-        int p_length=text.length();
-        for(int i=0;i<p_length;i+=2){
-            int row=GetRow(HexToDec(text.charAt(i)),mul);
-            int col=GetCol(HexToDec(text.charAt(i+1)));
-            if(mode=='e' || mode=='E'){
-                temp+=s_box.charAt(row+col);
-                temp+=s_box.charAt(row+col+1);
-            }
-            else if(mode=='d' || mode=='D'){
-                temp+=s_box_inverse.charAt(row+col);
-                temp+=s_box_inverse.charAt(row+col+1);
-            }
-        }
-        return temp;
-    }
+//    private String SubBytes(String text) {
+//        String temp="";
+//        int mul=32;
+//        int p_length=text.length();
+//        for(int i=0;i<p_length;i+=2){
+//            int row=GetRow(HexToDec(text.charAt(i)),mul);
+//            int col=GetCol(HexToDec(text.charAt(i+1)));
+//            if(mode=='e' || mode=='E'){
+//                temp+=s_box.charAt(row+col);
+//                temp+=s_box.charAt(row+col+1);
+//            }
+//            else if(mode=='d' || mode=='D'){
+//                temp+=s_box_inverse.charAt(row+col);
+//                temp+=s_box_inverse.charAt(row+col+1);
+//            }
+//        }
+//        return temp;
+//    }
 
-    private int GetRow(int r, int mul) {
-        return r*mul;
-    }
+//    private int GetRow(int r, int mul) {
+//        return r*mul;
+//    }
+//
+//    private int GetCol(int c) {
+//        return c*2;
+//    }
 
-    private int GetCol(int c) {
-        return c*2;
-    }
-
+    /*
+    ** Rotates a row in a state
+    **
+    ** @param text
+    ** given string which describes a state
+    **
+    ** @return shifts rows in a state by hardcoded amount
+    */
     private String ShiftRows(String text) {
         String s="";
         int t_length=text.length()/8;
         for (int i = 0; i < t_length; i++) {
-            s=s.concat(RotateWords(GetWord(TransposeKey(text), i*8, i*8+8), i*2, mode));
+            s=s.concat(RotateWords(GetWord(transpose(text), i*8, i*8+8), i*2, mode));
         }
 //        System.out.println(s);
 //        System.out.println(TransposeKey(s));
-        return TransposeKey(s);
+        return transpose(s);
     }
     
+    
     private String GetWord(String text, int start, int end){
-        String s="";
-        for (int i = start; i < end; i++) {
-            s+=text.charAt(i);
-        }
-        return s;
+        return text.substring(start, end);
+//        String s="";
+//        for (int i = start; i < end; i++) {
+//            s+=text.charAt(i);
+//        }
+//        return s;
     }
 
     private String MixColumns(String text) {
@@ -446,7 +674,7 @@ class AES {
         int t_length=text.length()/8;
         int m_length=mat_mixCol.length();
         for (int word_col = 0; word_col < t_length; word_col++) {
-            String p_text=GetWord(text,word_col+1);
+            String p_text=getWord(text,word_col+1);
             for (int mat_row = 0; mat_row < m_length; mat_row+=8) {
                 if(mode=='e' || mode=='E'){
                     answer+=Multiply(GetWord(mat_mixCol, mat_row, mat_row+8), p_text);
@@ -462,14 +690,109 @@ class AES {
     }
     
     private String GetFromTable(String s1, String s2){
-        return DecTo2Hex((SelectTable(HexToDec(s1)))[HexToDec(s2)]);
+//        return DecTo2Hex((SelectTable(HexToDec(s1)))[HexToDec(s2)]);
+        
+        String ans = "";
+        if(s1.length() < 2) s1 = "0" + s1;
+        if(s2.length() < 2) s2 = "0" + s2;
+//        
+////        System.out.println("s1 = "+s1);
+////        System.out.println("s2 = "+s2);
+//        
+//        int val1 = Integer.parseInt(s1, 16);
+//        int val2 = Integer.parseInt(s2, 16);
+////        ans = Integer.toBinaryString((int) multiply(val1, val2));
+//        if (val1 == 2) {
+//            mVal = val2;
+//            ans = mul2InGf8(val2);
+//        }
+////        ans = Integer.toBinaryString(val2);
+////        while (ans.length() < 8) ans = "0" + ans;
+////        ans = ans.substring(1);
+////        while(ans.length() < 8) ans = ans.concat("0");
+////        System.out.println("ls = "+ans);
+////        if (val2 > 127) ans = MyXOR("00011011", ans); // XOR with 1B
+////        System.out.println("1B = "+ans);
+//        else if(val1 == 3) {
+//            mVal = val2;
+//            ans = MyXOR(mul2InGf8(val2), Integer.toBinaryString(val2));
+//        }
+//        else if(val1 == 9) {
+////            ans = mul2InGf8(val2);
+//            mVal = val2;
+//            ans = MyXOR(mul2InGf8(mul2InGf8(mul2InGf8(val2, val2), val2)), Integer.toBinaryString(val2));
+//        }
+//        else if(val1 == 11) {
+//            mVal = val2;
+//            ans = MyXOR(mul2InGf8(Integer.parseInt(MyXOR(mul2InGf8(mul2InGf8(val2, val2)),
+//                    Integer.toBinaryString(val2)), 2))
+//                    , Integer.toBinaryString(val2));
+//        }
+//        else if(val1 == 13) {
+//            mVal = val2;
+//            int mul2_1 = Integer.parseInt(mul2InGf8(val2), 2);
+//            
+//            ans = MyXOR(mul2InGf8(mul2InGf8(Integer.parseInt(MyXOR(mul2InGf8(val2),
+//                    Integer.toBinaryString(val2)), 2)))
+//                    , Integer.toBinaryString(val2));
+//        }
+//        else if(val1 == 14) {
+//            mVal = val2;
+//            ans = mul2InGf8(Integer.parseInt(MyXOR(mul2InGf8(Integer.parseInt(MyXOR(mul2InGf8(val2),
+//                    Integer.toBinaryString(val2)), 2)),
+//                    Integer.toBinaryString(val2)), 2));
+//        }
+//        val1 = Integer.parseInt(ans, 2);
+//        ans = Integer.toHexString(val1);
+//        if(ans.length() < 2) {
+////            System.out.println("Flaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaag");
+//            ans = "0" + ans;
+//        }
+////        System.out.println("ans = "+ans);
+        
+        ans = Integer.toHexString(modMultiply(Integer.parseInt(s1, 16), Integer.parseInt(s2, 16), polynomial));
+        if(ans.length() < 2) ans = "0" + ans;
+        return ans;
     }
     
-    private String MultiplyDecryption(String r, String col){
+//    private int mul2InGf8(String hex, int ret) {
+//        return Integer.parseInt(mul2InGf8(hex), 2);
+//    }
+//    
+//    private String mul2InGf8(String hex, char ret) {
+//        int val = Integer.parseInt(mul2InGf8(hex), 2);
+//        String ans = Integer.toHexString(val);
+//        while(ans.length() < 2) ans = "0" + ans;
+//        return ans;
+//    }
+//    
+//    private String mul2InGf8(String hex) {
+//        return mul2InGf8(Integer.parseInt(hex, 16));
+//    }
+//    
+//    private String mul2InGf8(int val) {
+//        String ans = "";
+//        ans = Integer.toBinaryString(val);
+//        while (ans.length() < 8) ans = "0" + ans;
+//        ans = ans.substring(1, 8); // 1 bit left shift
+//        while(ans.length() < 8) ans = ans.concat("0");
+//        if (val > 127) ans = MyXOR("00011011", ans); // XOR with 1B
+////        if (mVal > 127) ans = MyXOR("00011011", ans); // XOR with 1B
+//        while (ans.length() < 8) ans = "0" + ans;
+//        return ans;
+//    }
+//    
+//    private int mul2InGf8(int val, int val2) {
+//        return Integer.parseInt(mul2InGf8(val), 2);
+//    }
+    
+    private String MultiplyDecryption(String row, String col){
         String ans="";
-        int r_length=r.length();
+//        System.out.println("row = "+row);
+//        System.out.println("col = "+col);
+        int r_length=row.length();
         for (int i = 0; i < r_length; i+=2) {
-            String s1=Character.toString(r.charAt(i))+Character.toString(r.charAt(i+1));
+            String s1=Character.toString(row.charAt(i))+Character.toString(row.charAt(i+1));
             String s2=Character.toString(col.charAt(i))+Character.toString(col.charAt(i+1));
             String xor=GetFromTable(s1, s2);
             if(i==0)ans=xor;
@@ -478,18 +801,29 @@ class AES {
         return ans;
     }
     
-    private String Multiply(String r, String col){
+    private String Multiply(String row, String col){
+//        System.out.println("row = "+row);
+//        System.out.println("col = "+col);
         String ans="";
-        int r_length=r.length();
-        for (int i = 0; i < r_length; i+=2) {
-            String s1=Character.toString(r.charAt(i))+Character.toString(r.charAt(i+1));
+        int row_length=row.length();
+        for (int i = 0; i < row_length; i+=2) {
+            String s1=Character.toString(row.charAt(i))+Character.toString(row.charAt(i+1));
             String s2=Character.toString(col.charAt(i))+Character.toString(col.charAt(i+1));
             int val1=HexToDec(s1);
+//            System.out.println("val1 = "+val1);
+//            System.out.println("s1 = "+s1);
+//            System.out.println("s2 = "+s1);
             String xor="";
-            if(val1==1)xor=s2;
+            if(val1==1) xor=s2; // if multiplying with 1, value will be same
             else xor=GetFromTable(s1, s2);
-            if(i==0) ans=xor;
-            else ans=MyXOR(xor, ans);
+            if(i==0) ans=xor; // no xor firsst time
+            else ans=MyXOR(xor, ans); // xor in steps where i > 0
+//            System.out.println("Answer = "+ans);
+//            try {
+//                System.in.read();
+//            } catch (IOException ex) {
+//                Logger.getLogger(AES.class.getName()).log(Level.SEVERE, null, ex);
+//            }
         }
         return ans;
     }
@@ -503,6 +837,15 @@ class AES {
         return val;
     }
     
+    /*
+    ** @param text
+    ** plain text or cipher text block
+    **
+    ** @param round_num
+    ** Current round number
+    **
+    ** @return text block with current round key added in it
+    */
     private String AddRoundKey(String text, int round_num){
         String ret="";
         String key=(String)RoundKeys.get(round_num);
@@ -515,20 +858,32 @@ class AES {
         return ret;
     }
 
-    private String TransposeKey(String key) {
+    /*
+    ** @param text
+    ** text block
+    **
+    ** @return transposed text block as it treats whole of the string as matrix
+    */
+    private String transpose(String text) {
         String ret="";
         for (int j=0; j < 4; j++) {
             for (int i = 2*j, count=1; count<5; i+=8,count++) {
-                ret+=key.charAt(i);
-                ret+=key.charAt(i+1);
+                ret+=text.charAt(i);
+                ret+=text.charAt(i+1);
             }
         }
         return ret;
     }
 
-    private String DecTo2Hex(int val2) {
+    /*
+    ** @param dec
+    ** decimal value
+    **
+    ** @return 2 digit hex
+    */
+    private String DecTo2Hex(int dec) {
         String k="0";
-        String val=Integer.toHexString(val2);
+        String val=Integer.toHexString(dec);
         if(val.length()<2){
             k+=val;
             val=k;
@@ -536,16 +891,22 @@ class AES {
         return val;
     }
 
-    private int[] SelectTable(int t) {
-        if(t==2)return helper.table_2;
-        else if(t==3)return helper.table_3;
-        else if(t==9)return helper.table_9;
-        else if(t==11)return helper.table_11;
-        else if(t==13)return helper.table_13;
-        else if(t==14)return helper.table_14;
-        else return new int[]{};
-    }
+//    private int[] SelectTable(int t) {
+//        if(t==2)return helper.table_2;
+//        else if(t==3)return helper.table_3;
+//        else if(t==9)return helper.table_9;
+//        else if(t==11)return helper.table_11;
+//        else if(t==13)return helper.table_13;
+//        else if(t==14)return helper.table_14;
+//        else return new int[]{};
+//    }
     
+    /*
+    ** @param mulResult
+    ** binary string from the output of s or inverse s box matrix multiplication
+    **
+    ** @return xored string
+    */
     private String rightXOR(String mulResult){
         String result = "";
         String xorRight = "";
@@ -555,6 +916,7 @@ class AES {
         else{
             xorRight = "10100000";
         }
+        mulResult = AddZeroesAtStart(mulResult, xorRight.length());
         int len = xorRight.length();
         for (int i = 0; i < len; i++) {
             if(xorRight.charAt(i) == mulResult.charAt(i)){
@@ -567,6 +929,15 @@ class AES {
         return result;
     }
     
+    /*
+    ** @param s
+    ** any string with length less than max_len
+    **
+    ** @param max_len
+    ** length of another string
+    **
+    ** @return string of length max_len which has 0s added in the start
+    */
     private String AddZeroesAtStart(String s, int max_len){
         while(s.length() < max_len){
             s = "0" + s;
@@ -574,6 +945,12 @@ class AES {
         return s;
     }
     
+    /*
+    ** @param mul
+    ** a 1*8 string matrix
+    **
+    ** @return s or inverse s box matrix multiplicated string
+    */
     private String mulMat(String mul){
         String result = "";
         mul = AddZeroesAtStart(mul, 8);
@@ -608,8 +985,17 @@ class AES {
         return result;
     }
     
+    /*
+    ** @param s
+    ** any string
+    **
+    ** @param rs
+    ** amount of right shifts 
+    **
+    ** @return string that is right shifted rs times
+    */
     private String rightShift(String s, int rs){
-        String temp = "";
+        String temp = ""; 
         int len = s.length();
         int counter = 0;
         for (int i = (len - rs)%len; counter < len; i++, counter++) {
@@ -618,6 +1004,12 @@ class AES {
         return temp;
     }
     
+    /*
+    ** @param s
+    ** any string
+    **
+    ** @return reverse of s
+    */
     private String reverse(String s) {
         int len = s.length();
         String temp = "";
@@ -627,6 +1019,12 @@ class AES {
         return temp;
     }
     
+    /*
+    ** @param line
+    ** binary string with spaces between 0s and 1s
+    **
+    ** @return bianry string with spaces removed
+    */
     private static String getPolynomial(String line) {
         String temp = "";
         StringTokenizer tokens = new StringTokenizer(line);
@@ -637,6 +1035,12 @@ class AES {
         return temp;
     }
     
+    /*
+    ** Writes text to file
+    **
+    ** @param text
+    ** any text
+    */
     private static void writeToFile(String text){
         try{
             PrintWriter writer = new PrintWriter("output.txt", "UTF-8");
@@ -647,6 +1051,12 @@ class AES {
         }
     }
     
+    /*
+    ** @param fileName
+    ** name of the file to read from
+    **
+    ** @return object strign that contains polynomial, keys, plain text and cipher text
+    */
     private static Object[] readFromFile(String fileName){
                 // The name of the file to open.
 
@@ -706,7 +1116,6 @@ class AES {
      * @param q polynomial
      * @return p+q
      */
-
     public static int add(int p, int q)
     {
         return p ^ q;
@@ -720,8 +1129,7 @@ class AES {
      * @return p*q
      */
 
-    public static long multiply(int p, int q)
-    {
+    public static long multiply(int p, int q){
         long result = 0;
         if (q != 0)
         {
@@ -895,7 +1303,7 @@ class AES {
     /**
      * Checking polynomial for irreducibility
      *
-     * @param p polinomial
+     * @param p polynomial
      * @return true if p is irreducible and false otherwise
      */
 
@@ -1058,5 +1466,4 @@ class AES {
                         0xd7,0xd9,0xcb,0xc5,0xef,0xe1,0xf3,0xfd,0xa7,0xa9,0xbb,0xb5,0x9f,0x91,0x83,0x8d};
     
     }
-    
 }
