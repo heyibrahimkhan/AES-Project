@@ -1,5 +1,4 @@
 /*
- * Mansoor Farooq
  * COSC 620 - Assignment GF1
  * Nov 10th 2016
  */
@@ -17,7 +16,7 @@ import java.util.StringTokenizer;
 
 /**
  *
- * @author Mansoor Farooq
+ * @author Ibrahim Ali Khan
  */
 class AES {
     
